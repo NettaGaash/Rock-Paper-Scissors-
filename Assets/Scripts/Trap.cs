@@ -2,10 +2,10 @@ using UnityEngine;
 
 public abstract class Trap : MonoBehaviour, IDamagable
 {
-    public int Health { get; set; }
+    public int CurrentHp { get; set; }
     public int Damage = 1;
 
-    void ApplyDamage(IDamagable damagable)
+    public virtual void ApplyDamage(IDamagable damagable)
     {
         damagable.TakeDamage(Damage);
     }
@@ -15,10 +15,10 @@ public abstract class Trap : MonoBehaviour, IDamagable
         Debug.Log("Trap destroyed");
     }
 
-    public void TakeDamage(int damage)
+    public virtual void TakeDamage(int damage)
     {
-        Health -= damage;
-       if (Health <= 0)
+        CurrentHp -= damage;
+        if (CurrentHp <= 0)
         {
             Die();
         }

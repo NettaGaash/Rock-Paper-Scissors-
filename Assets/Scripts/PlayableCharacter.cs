@@ -1,10 +1,12 @@
 using System;
 using TMPro;
+using Unity.IO.LowLevel.Unsafe;
 using UnityEngine;
 
-public class PlayableCharacter : MonoBehaviour, IDamagable
-    
+public abstract class PlayableCharacter : MonoBehaviour, IDamagable
+
 {
+    public int Damage = 1;
     private InputHandler input;
 
     [SerializeField]
@@ -15,6 +17,9 @@ public class PlayableCharacter : MonoBehaviour, IDamagable
 
     [SerializeField]
     private Camera camera;
+
+
+
     private void Awake()
     {
         input = GetComponent<InputHandler>();
@@ -28,18 +33,19 @@ public class PlayableCharacter : MonoBehaviour, IDamagable
     private void Move()
     {
         var TargetVector = new Vector3(input.inputVector.x, 0, input.inputVector.y);
-
+ 
         // Move in the direction we are aiming
         var movementVector = MoveTowardTarget(TargetVector);
 
         // Rotate in the direction we are traveling
         RotateTowardMovementVector(movementVector);
+
     }
 
     private void RotateTowardMovementVector(Vector3 movementVector)
     {
         if (movementVector.magnitude == 0) { return; }
-     
+
         var rotation = Quaternion.LookRotation(movementVector);
         transform.rotation = Quaternion.RotateTowards(transform.rotation, rotation, rotateSpeed);
     }
@@ -54,15 +60,29 @@ public class PlayableCharacter : MonoBehaviour, IDamagable
         return targetVector;
     }
 
-    public int Health { get; set; }
+
+    public int MaxHp = 3;
+    public int CurrentHp { get; set; }
+
+    void ApplyDamage(IDamagable damagable)
+    {
+        damagable.TakeDamage(Damage);
+    }
 
     public void Die()
     {
-       
+        Debug.Log("You Died");
     }
 
     public void TakeDamage(int damage)
     {
-        
+        CurrentHp -= damage;
+        if (CurrentHp <= 0)
+        {
+            Die();
+        }
     }
+
+    public abstract void SpecialAbility();
+    
 }
