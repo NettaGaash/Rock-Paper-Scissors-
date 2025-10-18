@@ -18,6 +18,11 @@ public abstract class PlayableCharacter : MonoBehaviour, IDamagable
     [SerializeField]
     private Camera camera;
 
+    [SerializeField]
+    protected LayerMask specialAbilityLayerMask;
+
+    [SerializeField]
+    protected float specialAbilityDistance = 5;
 
 
     private void Awake()

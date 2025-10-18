@@ -154,6 +154,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playableCharacter: {fileID: 8170653354299188168}
   playerManager: {fileID: 0}
+  animator: {fileID: 0}
 --- !u!114 &8170653354299188168
 MonoBehaviour:
   m_ObjectHideFlags: 0
