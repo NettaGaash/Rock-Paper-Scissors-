@@ -8,8 +8,6 @@ public abstract class Trap : MonoBehaviour
     {
         damagable.TakeDamage(Damage);
     }
-
-
     public abstract void Interact();
 
 }

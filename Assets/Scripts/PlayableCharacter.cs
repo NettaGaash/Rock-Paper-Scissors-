@@ -88,6 +88,14 @@ public abstract class PlayableCharacter : MonoBehaviour, IDamagable
         }
     }
 
-    public abstract void SpecialAbility();
-    
+    public virtual void SpecialAbility()
+    {
+        RaycastHit hitInfo;
+
+        if (Physics.Raycast(transform.position, transform.forward, out hitInfo, specialAbilityDistance, specialAbilityLayerMask))
+        {
+            Trap hitTrap = hitInfo.transform.GetComponentInParent<Trap>();
+            hitTrap.Interact();
+        }
+    }
 }
