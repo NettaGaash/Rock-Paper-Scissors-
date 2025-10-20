@@ -1,29 +1,37 @@
 using UnityEngine;
 
+[RequireComponent(typeof(Collider))]
 public class Collectible : MonoBehaviour
 {
-    private Rigidbody rb;
-    public AudioSource audioSource;
+    [SerializeField] private AudioSource pickupAudio;
+    [SerializeField] private GameObject visualsRoot;
 
-    void Start()
+    bool collected;
+
+    void Reset()
     {
-        rb = GetComponent<Rigidbody>();
+        var c = GetComponent<Collider>();
+        c.isTrigger = true;
     }
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("Player"))
+        if (collected) return;
+        if (!other.CompareTag("Player")) return;
+
+        collected = true;
+        GameManager.Instance.IncrementCollectibles();
+
+        if (visualsRoot) visualsRoot.SetActive(false);
+
+        if (pickupAudio != null)
         {
-            audioSource.Play(1);
-
-            this.gameObject.SetActive(false);
-
+            pickupAudio.Play();
+            Destroy(gameObject, pickupAudio.clip.length);
+        }
+        else
+        {
+            Destroy(gameObject);
         }
     }
-
-    
-     
-
-    
-    
 }
