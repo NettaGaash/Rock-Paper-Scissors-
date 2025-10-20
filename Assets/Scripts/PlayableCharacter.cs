@@ -3,7 +3,7 @@ using TMPro;
 using Unity.IO.LowLevel.Unsafe;
 using UnityEngine;
 
-public abstract class PlayableCharacter : MonoBehaviour, IDamagable
+public class PlayableCharacter : MonoBehaviour, IDamagable
 
 {
     public int Damage = 1;
